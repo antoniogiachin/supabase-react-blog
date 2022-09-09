@@ -1,0 +1,9 @@
+.App {
+  height: 100vh;
+  overflow: auto;
+}
+
+.App .content-wrapper {
+  width: 95%;
+  margin: 80px auto;
+}

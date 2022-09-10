@@ -4,11 +4,17 @@ import { supabase } from "../supabase/supabaseClient";
 import MyErrorClass from "../extra/MyErrorClass";
 // * REDUX
 import { useDispatch } from "react-redux";
-import { SET_LOGGED_STATUS } from "../store/slicers/authSlice";
+import { SET_LOGGED_STATUS, SET_USERS_INFOS } from "../store/slicers/authSlice";
+import { SET_SHOW_MODAL } from "../store/slicers/modalSlice";
+// * react router
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState(null);
+
+  // ! NAVIGATE
+  const navigate = useNavigate();
 
   // ! DISPATCH
   const dispatch = useDispatch();
@@ -53,9 +59,12 @@ export const useAuth = () => {
       };
       localStorage.setItem("auth", JSON.stringify(valueToStore));
       dispatch(SET_LOGGED_STATUS(true));
+      dispatch(SET_USERS_INFOS(valueToStore));
 
       setIsPending(false);
       setErrors(null);
+
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -106,8 +115,10 @@ export const useAuth = () => {
       localStorage.removeItem("auth");
       localStorage.setItem("auth", JSON.stringify(valueToStore));
       dispatch(SET_LOGGED_STATUS(true));
+      dispatch(SET_USERS_INFOS(valueToStore));
       setIsPending(false);
       setErrors(null);
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -118,19 +129,25 @@ export const useAuth = () => {
       const { error } = await supabase.auth.signOut();
 
       if (error) {
-        const e = new Error("Error signin out user....");
-        e.code = error.code;
-        e.details = error.details;
-        e.message = error.message;
+        const e = new MyErrorClass(
+          "No user with this email found",
+          401,
+          error,
+          true
+        );
         setIsPending(false);
-        setErrors(e.message);
-        throw error;
+        setErrors(e.formatted);
+        console.log(errors);
+        throw e;
       }
 
       setIsPending(false);
       setErrors(null);
       localStorage.removeItem("auth");
       dispatch(SET_LOGGED_STATUS(false));
+      dispatch(SET_USERS_INFOS(null));
+      dispatch(SET_SHOW_MODAL(false));
+      navigate("/");
     } catch (err) {
       consolerr.log(err);
     }

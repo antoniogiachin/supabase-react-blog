@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// * REDUX
+import { useSelector } from "react-redux";
 
 export const TheHeader = () => {
+  // ! check se loggato
+  const isLogged = useSelector((state) => state.auth.isLogged);
+
   return (
     <nav className="fixed top-0 w-full flex justify-between items-center h-14 bg-lime-400 shadow-lg shadow-bottom px-8">
       <ul>
@@ -19,11 +24,21 @@ export const TheHeader = () => {
             Home
           </Link>
         </li>
-        <li>
-          <Link className="p-2" to={"/auth"}>
-            Login
-          </Link>
-        </li>
+        {!isLogged && (
+          <li>
+            <Link className="p-2" to={"/auth"}>
+              Login
+            </Link>
+          </li>
+        )}
+        {isLogged && (
+          <li>
+            <Link className="p-2" to={"/dashboard"}>
+              Dashboard
+            </Link>
+          </li>
+        )}
+        {isLogged && <li className="cursor-pointer">Logout</li>}
       </ul>
     </nav>
   );

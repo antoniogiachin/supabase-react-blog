@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
 // * custom error class
 import MyErrorClass from "../extra/MyErrorClass";
+// * REDUX
+import { useDispatch } from "react-redux";
+import { SET_LOGGED_STATUS } from "../store/slicers/authSlice";
 
 export const useAuth = () => {
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState(null);
+
+  // ! DISPATCH
+  const dispatch = useDispatch();
 
   const handleRegister = async (payload) => {
     setIsPending(true);
@@ -46,6 +52,8 @@ export const useAuth = () => {
         },
       };
       localStorage.setItem("auth", JSON.stringify(valueToStore));
+      dispatch(SET_LOGGED_STATUS(true));
+
       setIsPending(false);
       setErrors(null);
     } catch (err) {
@@ -97,6 +105,7 @@ export const useAuth = () => {
 
       localStorage.removeItem("auth");
       localStorage.setItem("auth", JSON.stringify(valueToStore));
+      dispatch(SET_LOGGED_STATUS(true));
       setIsPending(false);
       setErrors(null);
     } catch (err) {
@@ -121,6 +130,7 @@ export const useAuth = () => {
       setIsPending(false);
       setErrors(null);
       localStorage.removeItem("auth");
+      dispatch(SET_LOGGED_STATUS(false));
     } catch (err) {
       consolerr.log(err);
     }

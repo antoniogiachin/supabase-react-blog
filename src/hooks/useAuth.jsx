@@ -1,33 +1,40 @@
 import React, { useState } from "react";
 import { supabase } from "../supabase/supabaseClient";
+// * custom error class
+import MyErrorClass from "../extra/MyErrorClass";
 
-export const useAuth = (payload) => {
+export const useAuth = () => {
   const [isPending, setIsPending] = useState(false);
   const [errors, setErrors] = useState(null);
 
-  const handleRegister = async () => {
+  const handleRegister = async (payload) => {
     setIsPending(true);
     try {
-      const { data, error } = await supabase.authh.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: payload.email,
-        password: email.password,
+        password: payload.password,
       });
       await supabase.from("users").insert([
         {
           firstname: payload.firstname,
           lastname: payload.lastname,
           birth_date: payload.birthDate,
+          email: payload.email,
         },
       ]);
 
       if (error) {
-        const e = new Error("Impossibile registrare utente");
-        e.code = error.code;
-        e.details = error.details;
-        e.message = error.message;
+        const e = new MyErrorClass("Can't register user", 401, error);
         setIsPending(false);
-        setErrors(e.message);
-        throw error;
+        let errorToSet = e.formatted;
+        if (e.details.message.includes("already")) {
+          errorToSet.advice = true;
+        }
+        if (e.details.message.includes("6")) {
+          errorToSet.message = e.details.message;
+        }
+        setErrors(errorToSet);
+        throw e;
       }
 
       const valueToStore = {
@@ -35,7 +42,7 @@ export const useAuth = (payload) => {
         additionalUserInfos: {
           firstname: payload.firstname,
           lastname: payload.lastname,
-          birthDate: payload.birth_date,
+          birthDate: payload.birthDate,
         },
       };
       localStorage.setItem("auth", JSON.stringify(valueToStore));
@@ -45,7 +52,7 @@ export const useAuth = (payload) => {
       console.log(err);
     }
   };
-  const handleLogin = async () => {
+  const handleLogin = async (payload) => {
     setIsPending(true);
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -53,20 +60,30 @@ export const useAuth = (payload) => {
         password: payload.password,
       });
 
-      const { fetchData, fetchError } = await supabase
+      if (error) {
+        const e = new MyErrorClass("Invalid email/password", 401, error);
+        setIsPending(false);
+        setErrors(e.formatted);
+        throw e;
+      }
+
+      const { data: fetchData, error: fetchError } = await supabase
         .from("users")
         .select()
-        .eq("email", payload.email)
+        .eq("email", data.user.email)
         .single();
 
-      if (error || fetchError) {
-        const e = new Error("Impossibile loggare utente");
-        e.code = error.code || fetchError.code;
-        e.details = error.details || fetchError.details;
-        e.message = error.message || fetchError.message;
+      if (fetchError) {
+        const e = new MyErrorClass(
+          "No user with this email found",
+          401,
+          error,
+          true
+        );
         setIsPending(false);
-        setErrors(e.message);
-        throw error;
+        setErrors(e.formatted);
+        console.log(errors);
+        throw e;
       }
 
       const valueToStore = {

@@ -1,7 +1,9 @@
 // * react imports
+import { useEffect } from "react";
 import { useState } from "react";
 // * custom hooks
 import { useAuth } from "../../hooks/useAuth";
+import { TheButton } from "../UI/TheButton";
 
 export const AuthForm = ({ isLoginForm, setIsLoginForm }) => {
   const [firstname, setFirstname] = useState("");
@@ -9,52 +11,93 @@ export const AuthForm = ({ isLoginForm, setIsLoginForm }) => {
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
 
-  const { error, isPendind, handleRegister, handleLogin } = useAuth(payload);
+  const { errors, isPending, handleRegister, handleLogin } = useAuth();
+
+  useEffect(() => {
+    setShowErrors(true);
+    setTimeout(() => {
+      setShowErrors(false);
+    }, 2500);
+  }, [errors]);
+
+  const doRegister = () => {
+    const payload = {
+      firstname,
+      lastname,
+      birthDate,
+      email,
+      password,
+    };
+    console.log(payload);
+    handleRegister(payload);
+  };
+
+  const doLogin = () => {
+    const payload = {
+      email,
+      password,
+    };
+    handleLogin(payload);
+  };
 
   return (
-    <form onSubmit={isFormLogin ? handleLogin : handleRegister}>
+    <form className="grid grid-cols-1 gap-6">
       {!isLoginForm && (
-        <div className="mt-3 flex flex-col space-y-1">
-          <label>firstname:</label>
+        <label>
+          <span className="text-gray-100">Firstname: </span>
           <input
             onChange={(e) => setFirstname(e.target.value)}
             value={firstname}
-            className="rounded p-2 text-slate-800 text-sm"
             type="text"
+            className="text-gray-800 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:ring-0"
           />
-        </div>
+        </label>
       )}
       {!isLoginForm && (
-        <div className="mt-3 flex flex-col space-y-1">
-          <label>lastname:</label>
+        <label>
+          <span className="text-gray-100">Lastname: </span>
           <input
             onChange={(e) => setLastname(e.target.value)}
             value={lastname}
-            className="rounded p-2 text-slate-800 text-sm"
             type="text"
+            className="text-gray-800 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:ring-0"
           />
-        </div>
+        </label>
       )}
-      <div className="mt-3 flex flex-col space-y-1">
-        <label>email:</label>
+      {!isLoginForm && (
+        <label>
+          <span className="text-gray-100">Birth date: </span>
+          <input
+            onChange={(e) => setBirthDate(e.target.value)}
+            value={birthDate}
+            type="date"
+            className="text-gray-800 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:ring-0"
+          />
+        </label>
+      )}
+      {/* email  */}
+      <label className="block">
+        <span className="text-gray-100">Email: </span>
         <input
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          className="rounded p-2 text-slate-800 text-sm"
           type="email"
+          className="text-gray-800 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:ring-0"
         />
-      </div>
-      <div className="mt-3 flex flex-col space-y-1">
-        <label>password:</label>
+      </label>
+      {/* password  */}
+      <label className="block">
+        <span className="text-gray-100">Password: </span>
         <input
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          className="rounded p-2 text-slate-800 text-sm"
           type="password"
+          className="text-gray-800 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:ring-0"
         />
-      </div>
-      <div className="mt-3 flex justify-end space-x-2">
+      </label>
+      <div className="mt-1 flex justify-end space-x-2">
         <p
           onClick={() => {
             setIsLoginForm(
@@ -65,12 +108,27 @@ export const AuthForm = ({ isLoginForm, setIsLoginForm }) => {
         >
           {isLoginForm ? "Not registered yet?" : "Already registered?"}
         </p>
-        <button
-          type="button"
-          className="inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out"
-        >
-          {isLoginForm ? "Login" : "Register"}
-        </button>
+        <TheButton
+          type={"secondary"}
+          label={isLoginForm ? "Login" : "Register"}
+          isPending={isPending}
+          onClick={isLoginForm ? doLogin : doRegister}
+        />
+      </div>
+      <div className="flex flex-col space-y-2">
+        <p className="text-red-500">{errors && showErrors && errors.message}</p>
+        <p className="text-red-500">
+          {isLoginForm &&
+            showErrors &&
+            errors &&
+            errors.advice &&
+            "Register first!"}
+          {!isLoginForm &&
+            showErrors &&
+            errors &&
+            errors.advice &&
+            "Use already registered!"}
+        </p>
       </div>
     </form>
   );

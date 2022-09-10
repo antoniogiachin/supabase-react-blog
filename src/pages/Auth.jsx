@@ -14,7 +14,7 @@ export const Auth = () => {
       <div
         className={`${
           !isLoginForm && "mt-5"
-        } bg-sky-900 w-1/3 py-12 flex items-center justify-center  text-slate-200 rounded-lg shadow-xl`}
+        } bg-sky-900 w-2/3 py-12 flex items-center justify-center  text-slate-200 rounded-lg shadow-xl`}
       >
         <AuthForm isLoginForm={isLoginForm} setIsLoginForm={setIsLoginForm} />
       </div>

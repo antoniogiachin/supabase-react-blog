@@ -1,25 +1,58 @@
+// * react imports
+import { useState } from "react";
+// * custom hooks
+import { useAuth } from "../../hooks/useAuth";
+
 export const AuthForm = ({ isLoginForm, setIsLoginForm }) => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { error, isPendind, handleRegister, handleLogin } = useAuth(payload);
+
   return (
-    <form>
+    <form onSubmit={isFormLogin ? handleLogin : handleRegister}>
       {!isLoginForm && (
         <div className="mt-3 flex flex-col space-y-1">
           <label>firstname:</label>
-          <input className="rounded p-2 text-slate-800 text-sm" type="text" />
+          <input
+            onChange={(e) => setFirstname(e.target.value)}
+            value={firstname}
+            className="rounded p-2 text-slate-800 text-sm"
+            type="text"
+          />
         </div>
       )}
       {!isLoginForm && (
         <div className="mt-3 flex flex-col space-y-1">
           <label>lastname:</label>
-          <input className="rounded p-2 text-slate-800 text-sm" type="text" />
+          <input
+            onChange={(e) => setLastname(e.target.value)}
+            value={lastname}
+            className="rounded p-2 text-slate-800 text-sm"
+            type="text"
+          />
         </div>
       )}
       <div className="mt-3 flex flex-col space-y-1">
         <label>email:</label>
-        <input className="rounded p-2 text-slate-800 text-sm" type="email" />
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          className="rounded p-2 text-slate-800 text-sm"
+          type="email"
+        />
       </div>
       <div className="mt-3 flex flex-col space-y-1">
         <label>password:</label>
-        <input className="rounded p-2 text-slate-800 text-sm" type="password" />
+        <input
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          className="rounded p-2 text-slate-800 text-sm"
+          type="password"
+        />
       </div>
       <div className="mt-3 flex justify-end space-x-2">
         <p

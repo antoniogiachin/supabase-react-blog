@@ -13,7 +13,11 @@ import { Dashboard } from "./pages/Dashboard";
 import { useDispatch, useSelector } from "react-redux";
 // * REACT IMPORTS
 import { useEffect } from "react";
-import { SET_USERS_INFOS, SET_LOGGED_STATUS } from "./store/slicers/authSlice";
+import authSlice, {
+  SET_USERS_INFOS,
+  SET_AUTHOR_STATUS,
+  SET_LOGGED_STATUS,
+} from "./store/slicers/authSlice";
 // * COMPONENTS
 import { TheModal } from "./components/UI/TheModal";
 
@@ -25,9 +29,13 @@ function App() {
   const { isPending, errors, handleLogout } = useAuth();
 
   useEffect(() => {
-    if (localStorage.getItem("auth")) {
+    const authStorage = localStorage.getItem("auth");
+    if (authStorage) {
       dispatch(SET_USERS_INFOS(JSON.parse(localStorage.getItem("auth"))));
       dispatch(SET_LOGGED_STATUS(true));
+      if (JSON.parse(localStorage.getItem("auth")).isAuthor) {
+        dispatch(SET_AUTHOR_STATUS(true));
+      }
     }
   }, []);
 

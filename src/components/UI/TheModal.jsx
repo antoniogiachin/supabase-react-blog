@@ -5,7 +5,7 @@ import { TheButton } from "./TheButton";
 // * styles
 import styles from "./TheModal.module.css";
 // * REDUX
-import { Provider, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SET_SHOW_MODAL } from "../../store/slicers/modalSlice";
 // * fontawasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,7 +36,6 @@ export const TheModal = (props) => {
     }
   }, [props.type]);
 
-
   return ReactDom.createPortal(
     <div className={styles.modal}>
       <div className={styles[setClass]}>
@@ -59,7 +58,9 @@ export const TheModal = (props) => {
               {props.message}
             </h3>
             <div className="flex justify-end space-x-3">
-              {props.errors && showErrors && <p className="text-red-500">{}</p>}
+              {props.errors && showErrors && (
+                <p className="text-red-500">{errors.message}</p>
+              )}
               <TheButton
                 label="Si"
                 onClick={props.handleFunction}

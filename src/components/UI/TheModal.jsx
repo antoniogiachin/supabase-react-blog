@@ -16,7 +16,7 @@ export const TheModal = (props) => {
 
   const dispatch = useDispatch();
   const closeDialog = () => {
-    dispatch(SET_SHOW_MODAL(false));
+    dispatch(SET_SHOW_MODAL({ show: false, id: "" }));
   };
 
   useEffect(() => {

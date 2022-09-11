@@ -42,7 +42,9 @@ export const TheButton = (props) => {
     <button
       onClick={props.onClick}
       type="button"
-      className={`flex items-center justify-between px-6 py-2.5 ${
+      className={`flex ${props.width} ${
+        props.customClasses
+      } items-center justify-between ${props.padding} ${
         buttonType.colors
       } font-medium text-xs leading-tight uppercase rounded shadow-md ${
         buttonType.hover
@@ -84,4 +86,6 @@ TheButton.defaultProps = {
   type: "success",
   label: "Insert label",
   isPending: false,
+  padding: "px-6 py-2.5",
+  customClasses: "",
 };

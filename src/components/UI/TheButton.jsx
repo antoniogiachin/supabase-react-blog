@@ -78,7 +78,9 @@ export const TheButton = (props) => {
           ></path>
         </svg>
       )}
-      {props.icon && <FontAwesomeIcon icon={props.icon}></FontAwesomeIcon>}
+      {props.icon && (
+        <FontAwesomeIcon className="mr-2" icon={props.icon}></FontAwesomeIcon>
+      )}
       <span> {props.label}</span>
     </button>
   );

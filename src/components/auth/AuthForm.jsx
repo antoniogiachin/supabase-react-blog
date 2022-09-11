@@ -30,7 +30,6 @@ export const AuthForm = ({ isLoginForm, setIsLoginForm }) => {
       email,
       password,
     };
-    console.log(payload);
     handleRegister(payload);
   };
 

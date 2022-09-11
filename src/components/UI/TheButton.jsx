@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useMemo } from "react";
 
 export const TheButton = (props) => {
@@ -42,11 +43,11 @@ export const TheButton = (props) => {
     <button
       onClick={props.onClick}
       type="button"
-      className={`flex ${props.width} ${
-        props.customClasses
-      } items-center justify-between ${props.padding} ${
+      className={`flex ${props.width} ${props.customClasses} items-center  ${
+        props.padding
+      } ${
         buttonType.colors
-      } font-medium text-xs leading-tight uppercase rounded shadow-md ${
+      } font-medium  leading-tight uppercase rounded shadow-md ${
         buttonType.hover
       }${buttonType.active} ${
         buttonType.focus
@@ -77,6 +78,9 @@ export const TheButton = (props) => {
           ></path>
         </svg>
       )}
+      {props.icon && (
+        <FontAwesomeIcon className="mr-2" icon={props.icon}></FontAwesomeIcon>
+      )}
       <span> {props.label}</span>
     </button>
   );
@@ -87,5 +91,5 @@ TheButton.defaultProps = {
   label: "Insert label",
   isPending: false,
   padding: "px-6 py-2.5",
-  customClasses: "",
+  customClasses: "justify-between text-xs",
 };

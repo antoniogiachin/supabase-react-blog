@@ -4,7 +4,11 @@ import { supabase } from "../supabase/supabaseClient";
 import MyErrorClass from "../extra/MyErrorClass";
 // * REDUX
 import { useDispatch } from "react-redux";
-import { SET_LOGGED_STATUS, SET_USERS_INFOS } from "../store/slicers/authSlice";
+import {
+  SET_LOGGED_STATUS,
+  SET_USERS_INFOS,
+  SET_AUTHOR_STATUS,
+} from "../store/slicers/authSlice";
 import { SET_SHOW_MODAL } from "../store/slicers/modalSlice";
 // * react router
 import { useNavigate } from "react-router-dom";
@@ -60,6 +64,7 @@ export const useAuth = () => {
       localStorage.setItem("auth", JSON.stringify(valueToStore));
       dispatch(SET_LOGGED_STATUS(true));
       dispatch(SET_USERS_INFOS(valueToStore));
+      dispatch(SET_AUTHOR_STATUS(false));
 
       setIsPending(false);
       setErrors(null);
@@ -112,10 +117,36 @@ export const useAuth = () => {
         },
       };
 
+      if (fetchData.authorId) {
+        const { data: authorData, error: fetchAuthorError } = await supabase
+          .from("authors")
+          .select()
+          .eq("id", fetchData.authorId)
+          .single();
+
+        if (fetchAuthorError) {
+          const e = new MyErrorClass(
+            "Can't fetch author datas",
+            401,
+            error,
+            true
+          );
+          setIsPending(false);
+          setErrors(e.formatted);
+          throw e;
+        }
+
+        valueToStore.author = authorData;
+        valueToStore.isAuthor = true;
+      }
+
       localStorage.removeItem("auth");
       localStorage.setItem("auth", JSON.stringify(valueToStore));
       dispatch(SET_LOGGED_STATUS(true));
       dispatch(SET_USERS_INFOS(valueToStore));
+      if (fetchData.authorId) {
+        dispatch(SET_AUTHOR_STATUS(true));
+      }
       setIsPending(false);
       setErrors(null);
       navigate("/");
@@ -146,7 +177,7 @@ export const useAuth = () => {
       localStorage.removeItem("auth");
       dispatch(SET_LOGGED_STATUS(false));
       dispatch(SET_USERS_INFOS(null));
-      dispatch(SET_SHOW_MODAL(false));
+      dispatch(SET_SHOW_MODAL({ show: false, id: "" }));
       navigate("/");
     } catch (err) {
       consolerr.log(err);

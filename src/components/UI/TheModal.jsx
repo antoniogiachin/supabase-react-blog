@@ -5,7 +5,7 @@ import { TheButton } from "./TheButton";
 // * styles
 import styles from "./TheModal.module.css";
 // * REDUX
-import { Provider, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SET_SHOW_MODAL } from "../../store/slicers/modalSlice";
 // * fontawasome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +16,7 @@ export const TheModal = (props) => {
 
   const dispatch = useDispatch();
   const closeDialog = () => {
-    dispatch(SET_SHOW_MODAL(false));
+    dispatch(SET_SHOW_MODAL({ show: false, id: "" }));
   };
 
   useEffect(() => {
@@ -35,7 +35,6 @@ export const TheModal = (props) => {
         return "containerlittle";
     }
   }, [props.type]);
-
 
   return ReactDom.createPortal(
     <div className={styles.modal}>

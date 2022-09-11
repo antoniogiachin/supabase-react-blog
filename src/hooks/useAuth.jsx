@@ -146,7 +146,7 @@ export const useAuth = () => {
       localStorage.removeItem("auth");
       dispatch(SET_LOGGED_STATUS(false));
       dispatch(SET_USERS_INFOS(null));
-      dispatch(SET_SHOW_MODAL(false));
+      dispatch(SET_SHOW_MODAL({ show: false, id: "" }));
       navigate("/");
     } catch (err) {
       consolerr.log(err);

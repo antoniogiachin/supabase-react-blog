@@ -20,6 +20,7 @@ import { TheModal } from "./components/UI/TheModal";
 function App() {
   const dispatch = useDispatch();
   const showModal = useSelector((state) => state.modal.show);
+  const modalId = useSelector((state) => state.modal.id);
 
   const { isPending, errors, handleLogout } = useAuth();
 
@@ -41,7 +42,7 @@ function App() {
         </Routes>
       </div>
       {/* LOGOUT MODAL  */}
-      {showModal && (
+      {showModal && modalId === "logoutModal" && (
         <TheModal
           message="Sei sicuro di voler effetuare il logout?"
           handleFunction={handleLogout}

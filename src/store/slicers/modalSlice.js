@@ -4,10 +4,12 @@ export const modalSlice = createSlice({
   name: "auth",
   initialState: {
     show: false,
+    id: 0,
   },
   reducers: {
     SET_SHOW_MODAL: (state, action) => {
-      state.show = action.payload;
+      state.show = action.payload.show;
+      state.id = action.payload.id;
     },
   },
 });

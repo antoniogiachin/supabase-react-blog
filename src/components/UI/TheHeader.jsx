@@ -13,7 +13,7 @@ export const TheHeader = () => {
   const isLogged = useSelector((state) => state.auth.isLogged);
   // ! handleLogout
   const openModal = () => {
-    dispatch(SET_SHOW_MODAL(true));
+    dispatch(SET_SHOW_MODAL({ show: true, id: "logoutModal" }));
   };
 
   return (

@@ -3,8 +3,10 @@ import { supabase } from "../supabase/supabaseClient";
 
 export const useFetcher = () => {
   const [isPending, setIsPending] = useState(false);
+  const [errors, setErrors] = useState(null);
 
   const fetchContent = async (api, eq) => {
+    setIsPending(true);
     try {
       let { data, error } = await supabase
         .from(api.table)
@@ -18,11 +20,12 @@ export const useFetcher = () => {
         throw e;
       }
 
+      setIsPending(false);
       return data;
     } catch (err) {
       console.log(err);
     }
   };
 
-  return { isPending, fetchContent };
+  return { isPending, errors, fetchContent };
 };

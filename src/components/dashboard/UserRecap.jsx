@@ -4,13 +4,20 @@ import { ActionContainer } from "./ActionContainer";
 import { useState } from "react";
 // * custom hooks
 import { useFetcher } from "../../hooks/useFetcher";
+// * REDUX
+import { useSelector, useDispatch } from "react-redux";
+import { SET_SHOW_MODAL } from "../../store/slicers/modalSlice";
 
 export const UserRecap = ({ profileSrc, userInfos }) => {
-  const { isPending, fetchContent } = useFetcher();
+  const { isPending, errors, fetchContent } = useFetcher();
 
   const [api, setApi] = useState(null);
   const [results, setResults] = useState(null);
   const [listName, setListName] = useState("");
+
+  const dispatch = useDispatch();
+  const showModal = useSelector((state) => state.modal.show);
+  const modalId = useSelector((state) => state.modal.id);
 
   const dynamicFetch = async (type) => {
     let api = { table: null, filter: null, filterValue: null };
@@ -30,6 +37,14 @@ export const UserRecap = ({ profileSrc, userInfos }) => {
     }
     const res = await fetchContent(api, api.filterValue);
     setResults(res);
+  };
+
+  const openModal = async (idModal, idContent) => {
+    const api = { table: idModal, filter: "id" };
+
+    const data = await fetchContent(api, idContent);
+
+    dispatch(SET_SHOW_MODAL({ show: true, id: idModal, data: data[0] }));
   };
 
   return (
@@ -111,6 +126,9 @@ export const UserRecap = ({ profileSrc, userInfos }) => {
           </div>
           <div className="action-container mt-10 px-32">
             <ActionContainer
+              showModal={showModal}
+              modalId={modalId}
+              openModal={openModal}
               listToRender={results}
               isPending={isPending}
               listName={listName}

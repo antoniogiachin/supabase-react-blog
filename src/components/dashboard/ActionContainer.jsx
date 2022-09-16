@@ -1,5 +1,6 @@
 // * custom components
 import { TheButton } from "../UI/TheButton";
+import { TheModal } from "../UI/TheModal";
 // * fontawasome
 import { faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
@@ -7,8 +8,16 @@ import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 // * react imports
 import { useState } from "react";
+import { ThePendingModal } from "../UI/ThePendingModal";
 
-export const ActionContainer = ({ listToRender, isPending, listName }) => {
+export const ActionContainer = ({
+  listToRender,
+  isPending,
+  listName,
+  openModal,
+  showModal,
+  modalId,
+}) => {
   const [commentTrigger, setCommentTrigger] = useState(false);
 
   return (
@@ -53,6 +62,9 @@ export const ActionContainer = ({ listToRender, isPending, listName }) => {
                     <TheButton
                       label={null}
                       icon={faUpRightAndDownLeftFromCenter}
+                      onClick={() => {
+                        openModal(listName, el.id);
+                      }}
                     />
                   )}
                   {!commentTrigger && (
@@ -65,6 +77,14 @@ export const ActionContainer = ({ listToRender, isPending, listName }) => {
                       }}
                     />
                   )}
+
+                  {/* MODAL GENERIC */}
+                  {showModal && modalId === listName && (
+                    <TheModal message={listName} type={"closable"} />
+                  )}
+
+                  {/* MODAL PENDING  */}
+                  {isPending && <ThePendingModal />}
                 </div>
               </div>
             </li>

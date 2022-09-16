@@ -73,7 +73,7 @@ export const useAuthor = () => {
         localStorage.setItem("auth", JSON.stringify(updateStorage));
         dispatch(SET_USERS_INFOS(updateStorage));
         dispatch(SET_AUTHOR_STATUS(true));
-        dispatch(SET_SHOW_MODAL({ show: false, id: "" }));
+        dispatch(SET_SHOW_MODAL({ show: false, id: "", data: null }));
 
         setIsPending(false);
         setErrors(null);

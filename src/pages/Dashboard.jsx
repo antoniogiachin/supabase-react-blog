@@ -37,7 +37,7 @@ export const Dashboard = () => {
   useEffect(() => {
     if (isAuthor) {
       setAvatarUrl(
-        JSON.parse(localStorage.getItem("auth")).author[0].profilePicture
+        JSON.parse(localStorage.getItem("auth")).author.profilePicture
       );
     }
   }, [isAuthor]);

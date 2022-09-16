@@ -6,7 +6,7 @@ export const TheButton = (props) => {
     switch (props.type) {
       case "warning":
         return {
-          colors: "bg-yellow-400 text-black",
+          colors: "bg-yellow-400 text-slate-100",
           hover: "hover:bg-yellow-600 hover:shadow-lg",
           focus:
             "focus:bg-yellow-300 focus:shadow-lg focus:outline-none focus:ring-0",
@@ -14,7 +14,7 @@ export const TheButton = (props) => {
         };
       case "danger":
         return {
-          colors: "bg-red-400 text-black",
+          colors: "bg-red-400 text-slate-100",
           hover: "hover:bg-red-600 hover:shadow-lg",
           focus:
             "focus:bg-red-300 focus:shadow-lg focus:outline-none focus:ring-0",
@@ -22,7 +22,7 @@ export const TheButton = (props) => {
         };
       case "secondary":
         return {
-          colors: "bg-gray-400 text-black",
+          colors: "bg-gray-400 text-slate-100",
           hover: "hover:bg-gray-600 hover:shadow-lg",
           focus:
             "focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0",
@@ -30,7 +30,7 @@ export const TheButton = (props) => {
         };
       default:
         return {
-          colors: "bg-green-400 text-black",
+          colors: "bg-green-400 text-slate-100",
           hover: "hover:bg-green-600 hover:shadow-lg",
           focus:
             "focus:bg-green-300 focus:shadow-lg focus:outline-none focus:ring-0",

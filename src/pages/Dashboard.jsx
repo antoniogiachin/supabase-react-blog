@@ -65,7 +65,8 @@ export const Dashboard = () => {
           <div>
             <img
               src={`${
-                import.meta.env.VITE_AVATARS_STORAGE_PUBLIC_URL
+                import
+                .meta.env.VITE_AVATARS_STORAGE_PUBLIC_URL
               }${avatarUrl}`}
               alt="profile-pic"
             />

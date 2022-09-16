@@ -43,5 +43,5 @@ export const UserRecap = ({ profileSrc, userInfos }) => {
 };
 
 UserRecap.defaultProps = {
-  mode: "User",
+  mode: "user",
 };

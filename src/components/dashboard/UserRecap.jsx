@@ -18,24 +18,54 @@ export const UserRecap = ({ profileSrc, userInfos }) => {
           </div>
           <div className="p-3">
             <ul>
-              <li>name: {userInfos.additionalUserInfos.firstname}</li>
-              <li>lastname: {userInfos.additionalUserInfos.lastname} </li>
-              <li>email: {userInfos.auth.user.email} </li>
-              <li>birth date: {userInfos.additionalUserInfos.birthDate}</li>
+              <li>
+                <span className="font-bold">name: </span>
+                {userInfos.additionalUserInfos.firstname}
+              </li>
+              <li>
+                <span className="font-bold">lastname: </span>
+                {userInfos.additionalUserInfos.lastname}
+              </li>
+              <li>
+                <span className="font-bold">email: </span>
+                {userInfos.auth.user.email}
+              </li>
+              <li>
+                <span className="font-bold">birth date: </span>
+                {userInfos.additionalUserInfos.birthDate}
+              </li>
+              <li className="flex items-center space-x-2 mt-2">
+                <span className="font-bold">Sponsor status: </span>
+                {userInfos.author.isSponsored ? (
+                  <span className="text-green-300">Sponsorship active</span>
+                ) : (
+                  <TheButton
+                    type={"warning"}
+                    label={"upgrade your profile now!"}
+                  />
+                )}
+              </li>
             </ul>
           </div>
+          {/* ARTICOLI  */}
         </div>
-        {/* ARTICOLI  */}
-      </div>
+        {/* RIGHT SIDE  */}
+        <div className="grid grid-cols-1 mt-20">
+          <div className="flex flex-col space-y-6 px-32">
+            {/* modifica profilo */}
+            <TheButton type={"secondary"} label={"Update Profile"} />
+            {/* leggi e rispondi ai tuoi commmenti */}
+            <TheButton type={"secondary"} label={"Show comments and answer"} />
 
-      {/* RIGHT SIDE  */}
-      <div className="grid grid-cols-1">
-        <div className="flex flex-col">
-          {/* modifica profilo */}
-          {/* leggi e rispondi ai tuoi commmenti */}
-          {/* leggi e rispondi alle tue recensioni */}
-          {/* elimina profilo da autore */}
-          {/* segnalaci un problema */}
+            {/* leggi e rispondi alle tue recensioni */}
+            <TheButton type={"secondary"} label={"Show reviews and answer"} />
+
+            {/* segnalaci un problema */}
+            <TheButton type={"warning"} label={"Report problem"} />
+
+            {/* elimina profilo da autore */}
+            <TheButton type={"danger"} label={"Delete your author profile"} />
+          </div>
         </div>
       </div>
     </>

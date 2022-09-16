@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App bg-teal-300">
+    <div className="App bg-gradient-to-r from-purple-800 to-slate-600">
       <TheHeader />
       <div className="content-wrapper">
         <Routes>

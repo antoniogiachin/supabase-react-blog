@@ -1,9 +1,11 @@
 .App {
   height: 100vh;
   overflow: auto;
+  font-family: "Space Mono", monospace;
 }
 
 .App .content-wrapper {
   width: 95%;
   margin: 80px auto;
 }
+

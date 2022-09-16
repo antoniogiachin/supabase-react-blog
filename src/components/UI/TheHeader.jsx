@@ -17,7 +17,7 @@ export const TheHeader = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full flex justify-between items-center h-14 bg-lime-400 shadow-lg shadow-bottom px-8">
+    <nav className="fixed top-0 w-full flex justify-between items-center h-14 bg-slate-800 text-slate-100 shadow-lg shadow-bottom px-8">
       <ul>
         <li>
           <h1>

@@ -6,32 +6,32 @@ export const TheButton = (props) => {
     switch (props.type) {
       case "warning":
         return {
-          colors: "bg-yellow-400 text-slate-100",
-          hover: "hover:bg-yellow-600 hover:shadow-lg",
+          colors: "bg-yellow-600 text-slate-100",
+          hover: "hover:bg-yellow-400 hover:shadow-lg",
           focus:
             "focus:bg-yellow-300 focus:shadow-lg focus:outline-none focus:ring-0",
           active: "active:bg-gray-400 active:shadow-lg",
         };
       case "danger":
         return {
-          colors: "bg-red-400 text-slate-100",
-          hover: "hover:bg-red-600 hover:shadow-lg",
+          colors: "bg-red-600 text-slate-100",
+          hover: "hover:bg-red-400 hover:shadow-lg",
           focus:
             "focus:bg-red-300 focus:shadow-lg focus:outline-none focus:ring-0",
           active: "active:bg-gray-400 active:shadow-lg",
         };
       case "secondary":
         return {
-          colors: "bg-gray-400 text-slate-100",
-          hover: "hover:bg-gray-600 hover:shadow-lg",
+          colors: "bg-gray-600 text-slate-100",
+          hover: "hover:bg-gray-400 hover:shadow-lg",
           focus:
             "focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0",
           active: "active:bg-gray-400 active:shadow-lg",
         };
       default:
         return {
-          colors: "bg-green-400 text-slate-100",
-          hover: "hover:bg-green-600 hover:shadow-lg",
+          colors: "bg-green-600 text-slate-100",
+          hover: "hover:bg-green-400 hover:shadow-lg",
           focus:
             "focus:bg-green-300 focus:shadow-lg focus:outline-none focus:ring-0",
           active: "active:bg-green-400 active:shadow-lg",
